@@ -1,78 +1,9 @@
 # MELEX_AUTOWARE_AUTO_AVP_DEMO
 
 ## Description
-### Messages design for simulator
-LGSVL interface Pubs (simulator -> interface -> autoware stack). We need same output from our melex driver. Msgs marked as <font color="green">green</font> are crucial (behaviour planner input).
+### Messages design for vehicle interface
 
 Publishers:
-*  /lgsvl/vehicle_control_cmd: lgsvl_msgs/msg/VehicleControlData
-    <details>
-    <summary>Interface</summary>
-    
-    ```
-    std_msgs/Header header
-    
-    float32 acceleration_pct  # 0 to 1
-    float32 braking_pct  # 0 to 1
-    float32 target_wheel_angle  # radians
-    float32 target_wheel_angular_rate  # radians / second
-    uint8 target_gear
-    
-    uint8 GEAR_NEUTRAL = 0
-    uint8 GEAR_DRIVE = 1
-    uint8 GEAR_REVERSE = 2
-    uint8 GEAR_PARKING = 3
-    uint8 GEAR_LOW = 4
-    ```
-    </details>
-
-*  /lgsvl/vehicle_state_cmd: lgsvl_msgs/msg/VehicleStateData
-    <details>
-    <summary>Interface</summary>
-    
-    ```
-    std_msgs/Header header
-
-    uint8 blinker_state
-    uint8 headlight_state
-    uint8 wiper_state
-    uint8 current_gear
-    uint8 vehicle_mode
-    bool hand_brake_active
-    bool horn_active
-    bool autonomous_mode_active
-    
-    uint8 BLINKERS_OFF = 0
-    uint8 BLINKERS_LEFT = 1
-    uint8 BLINKERS_RIGHT = 2
-    uint8 BLINKERS_HAZARD = 3
-    
-    uint8 HEADLIGHTS_OFF = 0
-    uint8 HEADLIGHTS_LOW = 1
-    uint8 HEADLIGHTS_HIGH = 2
-    
-    uint8 WIPERS_OFF = 0
-    uint8 WIPERS_LOW = 1
-    uint8 WIPERS_MED = 2
-    uint8 WIPERS_HIGH = 3
-    
-    uint8 GEAR_NEUTRAL = 0
-    uint8 GEAR_DRIVE = 1
-    uint8 GEAR_REVERSE = 2
-    uint8 GEAR_PARKING = 3
-    uint8 GEAR_LOW = 4
-    
-    uint8 VEHICLE_MODE_COMPLETE_MANUAL = 0
-    uint8 VEHICLE_MODE_COMPLETE_AUTO_DRIVE = 1
-    uint8 VEHICLE_MODE_AUTO_STEER_ONLY = 2
-    uint8 VEHICLE_MODE_AUTO_SPEED_ONLY = 3
-    uint8 VEHICLE_MODE_EMERGENCY_MODE = 4
-    ```
-    </details>
-
-*  /parameter_events: rcl_interfaces/msg/ParameterEvent
-*  /rosout: rcl_interfaces/msg/Log
-*  /tf: tf2_msgs/msg/TFMessage
 *  /vehicle/odom_pose: geometry_msgs/msg/PoseWithCovarianceStamped
     <details>
     <summary>Interface</summary>
@@ -82,6 +13,69 @@ Publishers:
     PoseWithCovariance pose
     ```
     </details>   
+
+   <details>
+    <summary>Example output</summary>
+   
+   ```
+   ---
+   header:
+     stamp:
+       sec: 1627383589
+       nanosec: 86323456
+     frame_id: odom
+   pose:
+     pose:
+       position:
+         x: 30.273908615112305
+         y: 90.37340927124023
+         z: 0.5375595092773438
+       orientation:
+         x: -0.004414775874465704
+         y: 0.002566313836723566
+         z: 0.3381696045398712
+         w: 0.9410713315010071
+     covariance:
+     - 0.1
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.1
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.1
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.1
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.1
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.0
+     - 0.1
+   ---
+   ```
+
+    </details>
 
 *   /vehicle/odometry: autoware_auto_msgs/msg/VehicleOdometry
     <details>
@@ -110,7 +104,21 @@ Publishers:
     };
     ```
     </details>   
+   <details>
+    <summary>Example output</summary>
+   
+   ```
+   ---
+   stamp:
+     sec: 1627383542
+     nanosec: 336368128
+   velocity_mps: 0.49711716175079346
+   front_wheel_angle_rad: 0.050000011920928955
+   rear_wheel_angle_rad: 0.0
+   ---
+   ```
 
+    </details>
 *  <font color="green">/vehicle/state_report: autoware_auto_msgs/msg/VehicleStateReport</font>
     <details>
     <summary>Interface</summary>
@@ -215,7 +223,7 @@ Publishers:
     </details>
     <details>
     <summary>Example output</summary>
-   Example acquired during driving.
+   Example acquired during driving. lateral_velocity_mps and acceleration_mps2 always equal 0.
    
    ```
    ---
@@ -252,50 +260,157 @@ Publishers:
    ---
    ```
     </details>  
+Subscribers:
+*  <font color="green">/vehicle/state_command: autoware_auto_msgs/msg/VehicleStateCommand</font>
+    <details>
+    <summary>Interface</summary>
+    
+    ```
+   #include "builtin_interfaces/msg/Time.idl"
+
+   module autoware_auto_msgs {
+     module msg {
+       module VehicleStateCommand_Constants {
+         const uint8 BLINKER_NO_COMMAND = 0;
+         const uint8 BLINKER_OFF = 1;
+         const uint8 BLINKER_LEFT = 2;
+         const uint8 BLINKER_RIGHT = 3;
+         const uint8 BLINKER_HAZARD = 4;
+         const uint8 HEADLIGHT_NO_COMMAND = 0;
+         const uint8 HEADLIGHT_OFF = 1;
+         const uint8 HEADLIGHT_ON = 2;
+         const uint8 HEADLIGHT_HIGH = 3;
+         const uint8 WIPER_NO_COMMAND = 0;
+         const uint8 WIPER_OFF = 1;
+         const uint8 WIPER_LOW = 2;
+         const uint8 WIPER_HIGH = 3;
+         const uint8 WIPER_CLEAN = 14; // Match WipersCommand::ENABLE_CLEAN
+         const uint8 GEAR_NO_COMMAND = 0;
+         const uint8 GEAR_DRIVE = 1;
+         const uint8 GEAR_REVERSE = 2;
+         const uint8 GEAR_PARK = 3;
+         const uint8 GEAR_LOW = 4;
+         const uint8 GEAR_NEUTRAL = 5;
+         const uint8 MODE_NO_COMMAND = 0;
+         const uint8 MODE_AUTONOMOUS = 1;
+         const uint8 MODE_MANUAL = 2;
+       };
+       @verbatim (language="comment", text=
+         " VehicleStateCommand.msg")
+       struct VehicleStateCommand {
+         builtin_interfaces::msg::Time stamp;
+   
+         @default (value=0)
+         uint8 blinker;
+   
+         @default (value=0)
+         uint8 headlight;
+   
+         @default (value=0)
+         uint8 wiper;
+   
+         @default (value=0)
+         uint8 gear;
+   
+         @default (value=0)
+         uint8 mode;
+   
+         @default (value=FALSE)
+         boolean hand_brake;
+   
+         @default (value=FALSE)
+         boolean horn;
+       };
+     };
+   };
+   
+    ```
+    </details>
+   
+   <details>
+    <summary>Example output</summary>
+   
+   `None output during driving`
+
+    </details> 
+*  <font color="green">/vehicle/vehicle_command: autoware_auto_msgs/msg/VehicleControlCommand</font>
+    <details>
+    <summary>Interface</summary>
+    
+    ```
+    std_msgs/Header header
+    PoseWithCovariance pose
+    ```
+    </details>   
+   <details>
+    <summary>Example output</summary>
+   
+   ```
+   ---
+   stamp:
+     sec: 1627383089
+     nanosec: 636799744
+   long_accel_mps2: 0.12093255668878555
+   velocity_mps: 2.7412989139556885
+   front_wheel_angle_rad: 0.024366803467273712
+   rear_wheel_angle_rad: 0.0
+   ---
+   ```
+
+    </details>
+
+Service Servers:
+*  <font color="green">/vehicle/autonomy_mode: autoware_auto_msgs/srv/AutonomyModeChange</font>
+    <details>
+    <summary>Interface</summary>
+    
+    ```
+   #include "std_msgs/msg/Empty.idl"
+   
+   module autoware_auto_msgs {
+     module srv {
+       module AutonomyModeChange_Request_Constants {
+         const uint8 MODE_MANUAL = 0;
+         const uint8 MODE_AUTONOMOUS = 1;
+       };
+       struct AutonomyModeChange_Request
+       {
+         @verbatim(language = "comment", text =
+           "The desired autonomy mode")
+         uint8 mode;
+       };
+       struct AutonomyModeChange_Response
+       {
+         @verbatim(language = "comment", text =
+           "No response is used because changing the autonomy mode requires non-trivial time")
+         std_msgs::msg::Empty empty;
+       };
+     };
+   };   
+    ```
+    </details>
+
+
+Green marked interfaces are required around Autoware architecture. `/vehicle/odom_pose` and `/vehicle/odometry`
+are published but there is no active subscribers for them. `/vehicle/state_command` is subscribed by behaviour planner
+but I can't see any messages during evaluation. To be sure I suggest implement it too.
 
 ### Signal flow 
 
 ![AVP_Architecture](images/AVP_Architecture.png)
 
-We need to follow output signal from behavior planner to low level steering commands.
 
-**Behavior planner** subs: 
-* `/vehicle/state_report` (logical states including gear, brake etc.)
-* semantic map
-* `/vehicle/vehicle_kinematic_state` (velocity, steering angle, heading of car)
-* pose request (we can use command input or rviz gui)
-
-   As we can see, acceleration is not used within those topics. It appears in `/vehicle/vehicle_kinematic_state` but it 
-   equals 0 all the time (see example mentioned above marked as green). 
-
-**Behavior planner** pubs: 
-* trajectory
-
-**MPC** subs:
-* trajectory
-* `/vehicle/vehicle_kinematic_state` (velocity, steering angle, heading of car)
-
-**MPC** pubs:
-* `/vehicle/vehicle_command` <font color="orange">(velocity, acceleration, steering angle)</font>
-
-   Unlike the acceleration within `/vehicle/vehicle_kinematic_state`, values changes depending on current trajectory
-
-**Vehicle interface** subs:
-* `/vehicle/vehicle_command` (velocity, acceleration, steering angle) given by MPC
-* current steering angle and velocity
-
-<font color="red">**Summarize:**</font>
 MPC Controller node returns **acceleration**, velocity and wheel angle which is necessary to control vehicle in simulator.
 In our case we can decide how to control melex.
 
 Example MPC Controller output (vel & acc):
 ![AVP_Architecture](images/mpc_vel_acc_output.png)
 Those values are converted to brake & throttle pedals signals (0-1). My idea: Let skip acceleration on the beginning 
-and use velocity to control vehicle with PID controller. Focus on green marked msgs (state_report & vehicle_kinematic_state).
-
+and use velocity to control vehicle with PID controller.
 
 ## Info
-Check ssc (speed and steering control)
+AutowareAuto uses ssc driver (speed and steering control). We should consider provided ssc package to integrate it with melex.
+Some links about ssc:
 https://gitlab.com/autowarefoundation/autoware.auto/AutowareAuto/-/blob/master/src/tools/autoware_auto_avp_demo/launch/ms3_vehicle.launch.py/#L175-L193
 
 https://github.com/Autoware-AI/autoware.ai/issues/1944
