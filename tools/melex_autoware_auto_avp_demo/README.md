@@ -422,6 +422,8 @@ Service Servers:
 are published but there is no active subscribers for them. `/vehicle/state_command` is subscribed by behaviour planner
 but I can't see any messages during evaluation. To be sure I suggest implement it too.
 
+In AutowareAuto acceleration [literally mean](https://gitlab.com/autowarefoundation/autoware.auto/AutowareAuto/-/blob/master/src/drivers/lgsvl_interface/src/lgsvl_interface.cpp/#L305-L330) throttle & brake signal (0-1 range). They don't use velocity output from MPC controller.
+
 ### Signal flow 
 
 ![AVP_Architecture](images/AVP_Architecture.png)
