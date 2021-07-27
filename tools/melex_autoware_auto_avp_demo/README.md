@@ -104,22 +104,24 @@ Publishers:
     };
     ```
     </details>   
-   <details>
-   <summary>Example output</summary>
+    <details>
+    <summary>Example output</summary>
    
-   ```
-   ---
-   stamp:
-     sec: 1627383542
-     nanosec: 336368128
-   velocity_mps: 0.49711716175079346
-   front_wheel_angle_rad: 0.050000011920928955
-   rear_wheel_angle_rad: 0.0
-   ---
-   ```
+    ```
+    ---
+    stamp:
+      sec: 1627383542
+      nanosec: 336368128
+    velocity_mps: 0.49711716175079346
+    front_wheel_angle_rad: 0.050000011920928955
+    rear_wheel_angle_rad: 0.0
+    ---
+    ```
 
    </details>
-*  <font color="green">/vehicle/state_report: autoware_auto_msgs/msg/VehicleStateReport</font>
+   
+*   **/vehicle/state_report: autoware_auto_msgs/msg/VehicleStateReport**
+    
     <details>
     <summary>Interface</summary>
     
@@ -196,7 +198,7 @@ Publishers:
     ```
     </details>  
 
-*  <font color="green">/vehicle/vehicle_kinematic_state: autoware_auto_msgs/msg/VehicleKinematicState</font>
+*  **/vehicle/vehicle_kinematic_state: autoware_auto_msgs/msg/VehicleKinematicState**
     <details>
     <summary>Interface</summary>
     
@@ -261,7 +263,7 @@ Publishers:
    ```
     </details>  
 Subscribers:
-*  <font color="green">/vehicle/state_command: autoware_auto_msgs/msg/VehicleStateCommand</font>
+*  **/vehicle/state_command: autoware_auto_msgs/msg/VehicleStateCommand**
     <details>
     <summary>Interface</summary>
     
@@ -333,7 +335,7 @@ Subscribers:
    `None output during driving`
 
     </details> 
-*  <font color="green">/vehicle/vehicle_command: autoware_auto_msgs/msg/VehicleControlCommand</font>
+*  **/vehicle/vehicle_command: autoware_auto_msgs/msg/VehicleControlCommand**
     <details>
     <summary>Interface</summary>
     
@@ -360,7 +362,7 @@ Subscribers:
     </details>
 
 Service Servers:
-*  <font color="green">/vehicle/autonomy_mode: autoware_auto_msgs/srv/AutonomyModeChange</font>
+*  **/vehicle/autonomy_mode: autoware_auto_msgs/srv/AutonomyModeChange**
     <details>
     <summary>Interface</summary>
     
@@ -391,7 +393,7 @@ Service Servers:
     </details>
 
 
-Green marked interfaces are required around Autoware architecture. `/vehicle/odom_pose` and `/vehicle/odometry`
+**Bolded** interfaces are required around Autoware architecture. `/vehicle/odom_pose` and `/vehicle/odometry`
 are published but there is no active subscribers for them. `/vehicle/state_command` is subscribed by behaviour planner
 but I can't see any messages during evaluation. To be sure I suggest implement it too.
 
