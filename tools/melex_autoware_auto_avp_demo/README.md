@@ -15,7 +15,7 @@ Publishers:
     </details>   
 
    <details>
-    <summary>Example output</summary>
+   <summary>Example output</summary>
    
    ```
    ---
@@ -105,7 +105,7 @@ Publishers:
     ```
     </details>   
    <details>
-    <summary>Example output</summary>
+   <summary>Example output</summary>
    
    ```
    ---
@@ -118,7 +118,7 @@ Publishers:
    ---
    ```
 
-    </details>
+   </details>
 *  <font color="green">/vehicle/state_report: autoware_auto_msgs/msg/VehicleStateReport</font>
     <details>
     <summary>Interface</summary>
