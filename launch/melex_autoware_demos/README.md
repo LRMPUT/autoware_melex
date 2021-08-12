@@ -7,7 +7,7 @@ Publishers:
 *  /vehicle/odom_pose: geometry_msgs/msg/PoseWithCovarianceStamped
     <details>
     <summary>Interface</summary>
-    
+    k
     ```
     std_msgs/Header header
     PoseWithCovariance pose

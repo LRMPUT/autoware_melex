@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
-project(melex_autoware_auto_avp_demo)
+project(melex_autoware_demos)
 
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
 ament_auto_package(INSTALL_TO_SHARE
     launch
+    param
+    data
 )

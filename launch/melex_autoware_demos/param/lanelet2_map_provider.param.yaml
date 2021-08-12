@@ -1,0 +1,11 @@
+---
+
+/**:
+   ros__parameters:
+     map_osm_file: "/home/amadeusz/AutowareAuto/install/melex_autoware_demos/share/melex_autoware_demos/data/put_a8_parking.osm"
+     # The earth-map transform is given by the point cloud map, but when the osm file is projected
+     # into the map frame, they might not match exactly. These parameters allow specifying a small
+     # correction to the position of the map frame origin for the purpose of this projection.
+     # Added as part of issue #847. The values are in degrees.
+     origin_offset_lat: 0.0
+     origin_offset_lon: 0.0
