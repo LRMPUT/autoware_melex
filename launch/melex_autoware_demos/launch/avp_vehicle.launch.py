@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -130,11 +130,11 @@ def generate_launch_description():
         arguments=["0", "0", "0", "0", "0", "0", "odom", "base_link"]
     )
 
-    map_map_pcd_publisher = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        arguments=["0", "0", "0", "-0.53249995478", "0", "0", "map", "map_pcd"]
-    )
+    #map_map_pcd_publisher = Node(
+    #    package='tf2_ros',
+    #    executable='static_transform_publisher',
+    #    arguments=["0", "0", "0", "-0.53249995478", "0", "0", "map", "map_pcd"]
+    #)
 
     core_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([melex_demo_pkg_prefix, '/launch/avp_core.launch.py']),
@@ -161,6 +161,6 @@ def generate_launch_description():
         ndt_localizer,
         mpc,
         odom_bl_publisher,
-        map_map_pcd_publisher,
+        #map_map_pcd_publisher,
         core_launch
     ])

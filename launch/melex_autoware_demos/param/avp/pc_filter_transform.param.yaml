@@ -1,13 +1,13 @@
 # config/test.param.yaml
 ---
-filter_transform_vlp16_front:
+filter_transform_os1_128:
   ros__parameters:
     timeout_ms:       110
-    pcl_size:         55000
+    pcl_size:         550000
     input_frame_id:  "laser_data_frame"
     output_frame_id: "base_link"
     init_timeout_ms:  5000
-    expected_num_subscribers: 1
+    expected_num_subscribers: 2
     expected_num_publishers:  1
     start_angle:            0.0       # radians
     end_angle:              6.28

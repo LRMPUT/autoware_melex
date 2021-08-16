@@ -1,8 +1,8 @@
 /**:
   ros__parameters:
-    map_pcd_file: "/home/amadeusz/AutowareAuto/install/melex_autoware_demos/share/melex_autoware_demos/data/put_a8_parking.pcd"
-    map_yaml_file: "/home/amadeusz/AutowareAuto/install/melex_autoware_demos/share/melex_autoware_demos/data/put_a8_parking.yaml"
-    map_frame: "map_pcd"
+    map_pcd_file: "/home/adas/AutowareAuto/install/melex_autoware_demos/share/melex_autoware_demos/data/put_a8_parking.pcd"
+    map_yaml_file: "/home/adas/AutowareAuto/install/melex_autoware_demos/share/melex_autoware_demos/data/put_a8_parking.yaml"
+    map_frame: "map"
     map_config:
       capacity: 1000000
       min_point:
