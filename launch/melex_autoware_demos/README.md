@@ -1,6 +1,20 @@
 # MELEX_AUTOWARE_AUTO_AVP_DEMO
 
 ## Description
+### Instruction
+1. Run melex driver on RPI:
+```
+ros2 run melex_ros2 melex_driver
+```
+2. Run visualization on ADAS:
+```
+ros2 launch melex_autoware_auto_launch autoware_auto_visualization.launch.py
+```
+4. Run behaviour planner on ADAS:
+```
+ros2 launch melex_autoware_demos avp_vehicle.launch.py
+```
+Don't forget about source ```setup.bash```  in each terminal window.
 ### Messages design for vehicle interface
 
 Publishers:
