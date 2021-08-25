@@ -10,7 +10,7 @@
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
   <buildtool_depend>autoware_auto_cmake</buildtool_depend>
 
-  <depend>autoware_auto_avp_demo</depend>
+  <depend>autoware_demos</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

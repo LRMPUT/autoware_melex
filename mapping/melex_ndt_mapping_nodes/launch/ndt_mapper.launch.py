@@ -18,7 +18,8 @@
 
 from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
@@ -32,6 +33,8 @@ def generate_launch_description():
     If odometry is available, remove the static tf publication and add the odometry node(s)
     to this launch file.
     """
+    ouster_pkg_prefix = get_package_share_directory('melex_ros2_ouster')
+
     ndt_mapper_param_file = os.path.join(
         get_package_share_directory('ndt_mapping_nodes'),
         'param/ndt_mapper.param.yaml')
@@ -41,8 +44,8 @@ def generate_launch_description():
         'param/scan_downsampler.param.yaml')
 
     pc_filter_transform_param_file = os.path.join(
-        get_package_share_directory('melex_point_cloud_filter_transform_nodes'),
-        'param/os1-128_melex_filter_transform.param.yaml')
+        get_package_share_directory('melex_autoware_demos'),
+        'param/avp/pc_filter_transform.param.yaml')
 
     rviz_config_file = os.path.join(
         get_package_share_directory('melex_ndt_mapping_nodes'),
@@ -70,7 +73,6 @@ def generate_launch_description():
         package='point_cloud_filter_transform_nodes',
         executable='point_cloud_filter_transform_node_exe',
         name='filter_transform_os1_128',
-        #namespace='lidar_front',
         parameters=[LaunchConfiguration('pc_filter_transform_param_file')],
         remappings=[("points_in", "points")]
     )
@@ -79,7 +81,6 @@ def generate_launch_description():
         package='voxel_grid_nodes',
         executable='voxel_grid_node_exe',
         name='voxel_grid_cloud_node',
-        #namespace='lidar_front',
         parameters=[LaunchConfiguration('scan_downsampler_param_file')],
         remappings=[
             ("points_in", "points_filtered"),
@@ -114,12 +115,18 @@ def generate_launch_description():
         name='rviz2',
         arguments=['-d', str(rviz_config_file)])
 
+    ouster_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([ouster_pkg_prefix, '/launch/driver_launch.py']),
+        launch_arguments={}.items()
+    )
+
     return LaunchDescription([
         pc_filter_transform_param,
         scan_downsampler_param,
         ndt_mapper_param,
         filter_transform_os1_128,
         scan_downsampler,
+        ouster_launch,
         odom_bl_publisher,
         ndt_mapper,
         rviz

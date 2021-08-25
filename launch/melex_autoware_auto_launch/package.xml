@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>melex_point_cloud_filter_transform_nodes</name>
+  <name>melex_autoware_auto_launch</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="amadeusz.szymko@put.poznan.pl">Amadeusz Szymko</maintainer>
@@ -10,7 +10,7 @@
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
   <buildtool_depend>autoware_auto_cmake</buildtool_depend>
 
-  <depend>point_cloud_filter_transform_nodes</depend>
+  <depend>autoware_auto_launch</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

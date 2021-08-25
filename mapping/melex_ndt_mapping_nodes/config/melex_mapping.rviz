@@ -53,7 +53,7 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 15
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -134,7 +134,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:

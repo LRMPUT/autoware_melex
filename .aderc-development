@@ -1,0 +1,9 @@
+export ADE_DOCKER_RUN_ARGS="--cap-add=SYS_PTRACE --net=ade_network --ip 172.30.0.100 --privileged --device /dev/dri -v ${HOME}/.Xauthority:${HOME}/.Xauthority:ro -e XAUTHORITY=${HOME}/.Xauthority -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp"
+export ADE_GITLAB=gitlab.com
+export ADE_REGISTRY=registry.gitlab.com
+export ADE_IMAGES="
+  amadeuszsz/ade-foxy:development
+  registry.gitlab.com/autowarefoundation/autoware.auto/autowareauto/amd64/binary-foxy:master
+  registry.gitlab.com/autowarefoundation/autoware.auto/ade-lgsvl/foxy:2020.06
+"
+

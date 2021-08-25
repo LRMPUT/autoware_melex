@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Launch Modules for Milestone 3 of the AVP 2020 Demo."""
 
 from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.actions import IncludeLaunchDescription
-from launch.conditions import IfCondition
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -26,21 +25,19 @@ import os
 
 
 def generate_launch_description():
-    avp_demo_pkg_prefix = get_package_share_directory('autoware_auto_avp_demo')
-    melex_demo_pkg_prefix = get_package_share_directory('melex_autoware_demos')
+    avp_demo_pkg_prefix = get_package_share_directory('melex_autoware_demos')
     ouster_pkg_prefix = get_package_share_directory('melex_ros2_ouster')
+
     map_publisher_param_file = os.path.join(
-        melex_demo_pkg_prefix, 'param/avp/map_publisher_vehicle.param.yaml')
+        avp_demo_pkg_prefix, 'param/avp/map_publisher_vehicle.param.yaml')
     ndt_localizer_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/ndt_localizer_vehicle.param.yaml')
+        avp_demo_pkg_prefix, 'param/avp/ndt_localizer_vehicle.param.yaml')
     mpc_param_file = os.path.join(
-        melex_demo_pkg_prefix, 'param/avp/mpc_vehicle.param.yaml')
-
+        avp_demo_pkg_prefix, 'param/avp/mpc_vehicle.param.yaml')
     pc_filter_transform_param_file = os.path.join(
-        melex_demo_pkg_prefix, 'param/avp/pc_filter_transform.param.yaml')
-
+        avp_demo_pkg_prefix, 'param/avp/pc_filter_transform.param.yaml')
     vehicle_characteristics_param_file = os.path.join(
-        melex_demo_pkg_prefix, 'param/vehicle_characteristics.param.yaml')
+        avp_demo_pkg_prefix, 'param/vehicle_characteristics.param.yaml')
 
     urdf_pkg_prefix = get_package_share_directory('melex_description')
     urdf_path = os.path.join(urdf_pkg_prefix, 'urdf/melex.urdf')
@@ -69,13 +66,11 @@ def generate_launch_description():
         default_value=mpc_param_file,
         description='Path to config file for MPC'
     )
-
     pc_filter_transform_param = DeclareLaunchArgument(
         'pc_filter_transform_param_file',
         default_value=pc_filter_transform_param_file,
         description='Path to config file for Point Cloud Filter/Transform Nodes'
     )
-
     vehicle_characteristics_param = DeclareLaunchArgument(
         'vehicle_characteristics_param_file',
         default_value=vehicle_characteristics_param_file,
@@ -83,6 +78,7 @@ def generate_launch_description():
     )
 
     # Nodes
+
     filter_transform_os1_128 = Node(
         package='point_cloud_filter_transform_nodes',
         executable='point_cloud_filter_transform_node_exe',
@@ -130,22 +126,14 @@ def generate_launch_description():
         arguments=["0", "0", "0", "0", "0", "0", "odom", "base_link"]
     )
 
-    map_map_pcd_publisher = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        arguments=["0", "0", "0", "-0.53249995478", "0", "0", "map", "map_pcd"]
-    )
-
     core_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([melex_demo_pkg_prefix, '/launch/avp_core.launch.py']),
+        PythonLaunchDescriptionSource([avp_demo_pkg_prefix, '/launch/avp_core.launch.py']),
         launch_arguments={}.items()
     )
     ouster_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([ouster_pkg_prefix, '/launch/os1_launch.py']),
+        PythonLaunchDescriptionSource([ouster_pkg_prefix, '/launch/driver_launch.py']),
         launch_arguments={}.items()
     )
-
-
 
     return LaunchDescription([
         with_lidars_param,
@@ -161,6 +149,5 @@ def generate_launch_description():
         ndt_localizer,
         mpc,
         odom_bl_publisher,
-        map_map_pcd_publisher,
         core_launch
     ])

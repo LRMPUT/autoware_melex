@@ -14,8 +14,6 @@
 
 
 from ament_index_python import get_package_share_directory
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import IncludeLaunchDescription
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
@@ -26,30 +24,38 @@ import os
 
 
 def generate_launch_description():
-    avp_demo_pkg_prefix = get_package_share_directory('autoware_auto_avp_demo')
-    melex_demo_pkg_prefix = get_package_share_directory('melex_autoware_demos')
+    """
+    Launch all nodes defined in the architecture for Milestone 3 of the AVP 2020 Demo.
+
+    More details about what is included can
+    be found at https://gitlab.com/autowarefoundation/autoware.auto/AutowareAuto/-/milestones/25.
+    """
+    avp_demo_pkg_prefix = get_package_share_directory('melex_autoware_demos')
+    autoware_launch_pkg_prefix = get_package_share_directory('melex_autoware_auto_launch')
+
     euclidean_cluster_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/euclidean_cluster.param.yaml')
+        autoware_launch_pkg_prefix, 'param/euclidean_cluster.param.yaml')
     ray_ground_classifier_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/ray_ground_classifier.param.yaml')
+        autoware_launch_pkg_prefix, 'param/ray_ground_classifier.param.yaml')
     scan_downsampler_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/scan_downsampler_ms3.param.yaml')
+        autoware_launch_pkg_prefix, 'param/scan_downsampler.param.yaml')
+
     lanelet2_map_provider_param_file = os.path.join(
-        melex_demo_pkg_prefix, 'param/lanelet2_map_provider.param.yaml')
+        avp_demo_pkg_prefix, 'param/avp/lanelet2_map_provider.param.yaml')
+    
     lane_planner_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/lane_planner.param.yaml')
+        autoware_launch_pkg_prefix, 'param/lane_planner.param.yaml')
     parking_planner_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/parking_planner.param.yaml')
+        autoware_launch_pkg_prefix, 'param/parking_planner.param.yaml')
     object_collision_estimator_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/object_collision_estimator.param.yaml')
+        autoware_launch_pkg_prefix, 'param/object_collision_estimator.param.yaml')
     behavior_planner_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/behavior_planner.param.yaml')
+        autoware_launch_pkg_prefix, 'param/behavior_planner.param.yaml')
     off_map_obstacles_filter_param_file = os.path.join(
-        avp_demo_pkg_prefix, 'param/off_map_obstacles_filter.param.yaml')
+        autoware_launch_pkg_prefix, 'param/off_map_obstacles_filter.param.yaml')
 
     vehicle_characteristics_param_file = os.path.join(
-        melex_demo_pkg_prefix, 'param/vehicle_characteristics.param.yaml')
-
+        avp_demo_pkg_prefix, 'param/vehicle_characteristics.param.yaml')
 
     # Arguments
 
@@ -121,7 +127,6 @@ def generate_launch_description():
             ("points_in", "points_nonground")
         ]
     )
-
     ray_ground_classifier = Node(
         package='ray_ground_classifier_nodes',
         executable='ray_ground_classifier_cloud_node_exe',

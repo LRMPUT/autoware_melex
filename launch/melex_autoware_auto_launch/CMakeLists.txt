@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
-project(melex_point_cloud_filter_transform_nodes)
+project(melex_autoware_auto_launch)
 
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
 ament_auto_package(INSTALL_TO_SHARE
+    launch
     param
+    config
 )
