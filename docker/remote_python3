@@ -1,3 +1,4 @@
 #!/bin/bash -l
 source /opt/ros/foxy/setup.bash
+source /home/$USER/AutowareAuto/install/setup.bash
 /usr/bin/python3 "$@"
